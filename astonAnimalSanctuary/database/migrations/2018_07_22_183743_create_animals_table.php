@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateTestsTable extends Migration
+class CreateAnimalsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,13 @@ class CreateTestsTable extends Migration
      */
     public function up()
     {
-        Schema::create('tests', function (Blueprint $table) {
+        Schema::create('animals', function (Blueprint $table) {
             $table->increments('id');
-            $table->string("someString");
+            $table->string('name');
+            $table->enum('type', ['bird', 'dog', 'cat', 'aquatic', 'reptile', 'other']);
+            $table->date('dateofbirth');
+            $table->string('description', 255);
+            $table->boolean('adopted')->default(0);
             $table->timestamps();
         });
     }
@@ -27,6 +31,6 @@ class CreateTestsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tests');
+        Schema::dropIfExists('animals');
     }
 }
