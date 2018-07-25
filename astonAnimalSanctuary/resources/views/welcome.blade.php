@@ -5,7 +5,7 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
 
-
+          <?php echo "welcome"; ?>
             <!--<div class="card">
                 <div class="card-header">Dashboard</div>
 

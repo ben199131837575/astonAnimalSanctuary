@@ -17,4 +17,6 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/', 'AnimalController@getAdoptableAnimals')->name('getAdoptableAnimals');
+Route::get('/animalSearch','AnimalController@search')->name('animalSearch');
+Route::get('/home', 'AnimalController@getAdoptableAnimals')->name('home');
