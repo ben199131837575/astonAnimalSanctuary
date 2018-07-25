@@ -5,9 +5,18 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
 use App\Animal;
+use App\User;
+use Auth;
 
 class AnimalController extends Controller
 {
+
+    public function isStaff(){
+        if(Auth::user()->staff){
+            return true;
+        }
+        return false;
+    }
 
     /*
         Search function for animals
@@ -18,19 +27,18 @@ class AnimalController extends Controller
             return $this->getAdoptableAnimals();
         }
         $animalQuery = Animal::query();
-        //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        //if staff and show adopted is selected
-        //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        if(true){
-            $animalQuery->where('adopted', '=', 0);
-        }
 
+        if(!$this::isStaff()){
+            $animalQuery->where('adopted', '=', 0);
+        }else if(!Input::get('adoption') == 'show_adopted'){
+            $animalQuery->where('adopted', '=', 0);
+        }else if(Input::get('adoption') == 'only_show_adopted'){
+            $animalQuery->where('adopted', '=', 1);
+        }
 
         if(Input::get('type')){
             $animalQuery->where('type', '=', Input::get('type'));
         }
-
-
 
         if(Input::get('keywords')){
             $keywords = explode(" ", Input::get('keywords'));
@@ -41,8 +49,9 @@ class AnimalController extends Controller
                 });
             }
         }
+
         if(Input::has('orderby')){
-            if(Input::get('orderby') == 'age_asc'){//order by age young to old
+            if(Input::get('orderby') == 'age_asc'){// order by age young to old
                 $animalQuery->orderBy('dateofbirth', 'desc');
             }else if(Input::get('orderby') == 'age_desc'){// order by age old to young
                 $animalQuery->orderBy('dateofbirth', 'asc');
@@ -53,9 +62,8 @@ class AnimalController extends Controller
             }
         }
 
-
-
         $animal = $animalQuery->get();
+
         return view('/home', array('animals'=>$animal));
 
     }

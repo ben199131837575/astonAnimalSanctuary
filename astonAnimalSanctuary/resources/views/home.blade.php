@@ -71,6 +71,22 @@
                     </div>
                 </div>
 
+                @if (Auth::user() && Auth::user()->staff)
+                    <div class="form-group row">
+                        <label for="show_adopted" class="col-sm-4 col-form-label text-md-right">{{ __('Show adopted') }}</label>
+                        <div class="col-md-6">
+                            <input type="radio" id="show_adopted" name="adoption" value="show_adopted">
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="only_show_adopted" class="col-sm-4 col-form-label text-md-right">{{ __('Only Show adopted') }}</label>
+                        <div class="col-md-6">
+                            <input type="radio" id="only_show_adopted" name="adoption" value="only_show_adopted">
+                        </div>
+                    </div>
+                @endif
+
                 <div class="form-group row mb-0">
                     <div class="col-md-8 offset-md-4">
                         <button type="submit" class="btn btn-primary">
@@ -96,8 +112,6 @@
             @foreach($animals as $animal)
             <div class="panel panel-default">
                 <div class="panel-heading">picture</div>
-
-
                 <ul class="list-group list-group-flush">
                   <li class="list-group-item " >
                     <p class="card-text">{{'Name: '}}{{$animal->name}}</p>
@@ -124,8 +138,6 @@
             <div class="col-md-8 col-md-offset-2">
                 <div class="panel panel-default">
                     <div class="panel-heading">No results found!</div>
-
-
                 </div>
             </div>
         </div>
