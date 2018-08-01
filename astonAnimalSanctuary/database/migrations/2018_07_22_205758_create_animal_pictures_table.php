@@ -18,6 +18,7 @@ class CreateAnimalPicturesTable extends Migration
             $table->unsignedInteger('animalid');
             $table->foreign('animalid')->references('id')->on('animals');
             $table->string('file_path')->unique();
+            $table->binary('image');
             $table->timestamps();
         });
     }

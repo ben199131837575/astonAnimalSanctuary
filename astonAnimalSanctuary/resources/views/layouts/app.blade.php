@@ -17,7 +17,7 @@
     <div id="app">
         <nav class="navbar navbar-default navbar-static-top">
             <div class="container">
-                <div class="navbar-header">
+                <div class="navbar-header ">
 
                     <!-- Collapsed Hamburger -->
                     <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#app-navbar-collapse" aria-expanded="false">
@@ -37,6 +37,34 @@
                     <!-- Left Side Of Navbar -->
                     <ul class="nav navbar-nav">
                         &nbsp;
+                        <li><a href="{{ route('home') }}">Home</a></li>
+                        @if (Auth::user())
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" v-pre>
+                                    Animal Adoption<span class="caret"></span>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="{{ route('adoptionRequests', 'user') }}">My Adoption Requests</a></li>
+                                    <li><a href="#">Why adopt and animal?</a></li>
+                                    <li><a href="#">Support and information</a></li>
+                                </ul>
+                            </li>
+                        @endif
+                        @if (Auth::user() && Auth::user()->staff)
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" v-pre>
+                                    Staff Controls<span class="caret"></span>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="{{ route('newAnimalForm') }}">Add New Animal</a></li>
+                                    <li><a href="{{ route('adoptionRequests', 'all') }}">Review Adoption Requests</a></li>
+                                </ul>
+                            </li>
+                        @endif
+                        <li><a href="{{ route('allStaff') }}">Contact Us</a></li>
+                        <li><a href="{{ route('home') }}">About</a></li>
+
+
                     </ul>
 
                     <!-- Right Side Of Navbar -->
@@ -46,9 +74,10 @@
                             <li><a href="{{ route('login') }}">Login</a></li>
                             <li><a href="{{ route('register') }}">Register</a></li>
                         @else
+
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" v-pre>
-                                    {{ Auth::user()->name }} <span class="caret"></span>
+                                    {{ 'Hello '.Auth::user()->fname }} <span class="caret"></span>
                                 </a>
 
                                 <ul class="dropdown-menu">

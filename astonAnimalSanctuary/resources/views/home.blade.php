@@ -2,33 +2,16 @@
 
 @section('content')
 
-<div class="container">
-    <div class="row">
-        <div class="col-md-8 col-md-offset-2">
-            <div class="panel panel-default">
-                <div class="panel-heading">Dashboard</div>
-
-                <div class="panel-body">
-                    @if (session('status'))
-                        <div class="alert alert-success">
-                            {{ session('status') }}
-                        </div>
-                    @endif
-
-                    You are logged in!
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
 
 
 <div class="container">
   <div class="row">
     <div class="col-md-8 col-md-offset-2">
-      <div class="panel panel-default">
-        <div class="panel-heading">Search Filter</div>
-          <div class="panel-body">
+        <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#search_filter" aria-expanded="false" aria-controls="search_filter">
+            Search Filter <span class="caret"></span>
+        </button><br><br>
+      <div class="panel panel-default accordion-body collapse" id=search_filter>
+          <div class="panel-body" >
             <div class="card-body bg-light">
               <form method="GET" action="{{ route('animalSearch') }}">
                 {{ csrf_field() }}
@@ -73,14 +56,14 @@
 
                 @if (Auth::user() && Auth::user()->staff)
                     <div class="form-group row">
-                        <label for="show_adopted" class="col-sm-4 col-form-label text-md-right">{{ __('Show adopted') }}</label>
+                        <label for="show_adopted" class="col-sm-4 col-form-label text-md-right">{{ __('Include Adopted') }}</label>
                         <div class="col-md-6">
                             <input type="radio" id="show_adopted" name="adoption" value="show_adopted">
                         </div>
                     </div>
 
                     <div class="form-group row">
-                        <label for="only_show_adopted" class="col-sm-4 col-form-label text-md-right">{{ __('Only Show adopted') }}</label>
+                        <label for="only_show_adopted" class="col-sm-4 col-form-label text-md-right">{{ __('Only Include Adopted') }}</label>
                         <div class="col-md-6">
                             <input type="radio" id="only_show_adopted" name="adoption" value="only_show_adopted">
                         </div>
@@ -104,30 +87,46 @@
 
 
 
-<div class="container">
+<div class="container ">
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
 
 
             @foreach($animals as $animal)
-            <div class="panel panel-default">
-                <div class="panel-heading">picture</div>
-                <ul class="list-group list-group-flush">
-                  <li class="list-group-item " >
-                    <p class="card-text">{{'Name: '}}{{$animal->name}}</p>
-                  </li>
-                 <li class="list-group-item ">
-                   <p class="card-text">{{'Type: '}}{{$animal->type}}</p>
-                 </li>
-                 <li class="list-group-item ">
-                   <p class="card-text">{{'Date of Birth:  '}}{{$animal->dateofbirth}}</p>
-                 </li>
-                 <li class="list-group-item " >
-                   <p class="card-text">{{$animal->adopted == 0 ? 'Available for adoption' : 'Not Available for adoption'}}</p>
-                 </li>
-               </ul>
-            </div>
+
+            <a name="anchor{{$animal->id}}" href="{{URL::to('/')}}/animal/{{$animal->id}}" style="text-decoration:none !important; color: black; text-decoration:none;">
+                <div class="panel panel-info">
+
+                     <div class="panel-heading">
+                        @foreach($images as $image)
+                            @if ($animal->id == $image->animalid)
+                            <li class="list-group-item">
+                                <img class="img-responsive img-rounded" src="{{ 'data:image/*;base64,'.$image->image }}">
+                            </li>
+                            @break
+                            @endif
+                        @endforeach
+                    </div>
+                        <div class="panel-body">
+                        <ul class="list-group list-group-flush">
+                          <li class="list-group-item " >
+                            <p class="panel-text">{{'Name: '}}{{$animal->name}}</p>
+                          </li>
+                         <li class="list-group-item ">
+                           <p class="panel-text">{{'Type: '}}{{$animal->type}}</p>
+                         </li>
+                         <li class="list-group-item ">
+                           <p class="panel-text">{{'Date of Birth:  '}}{{$animal->dateofbirth}}</p>
+                         </li>
+                         <li class="list-group-item " >
+                           <p class="panel-text">{{$animal->adopted == 0 ? 'Available for adoption' : 'Not Available for adoption'}}</p>
+                         </li>
+                       </ul>
+                   </div>
+                </div>
+            </a>
             @endforeach
+
         </div>
     </div>
 </div>
@@ -143,5 +142,8 @@
         </div>
     </div>
 @endif
+
+
+
 
 @endsection
