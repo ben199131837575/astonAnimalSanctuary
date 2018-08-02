@@ -1,0 +1,70 @@
+
+Database:
+  > users
+    > staff true/false
+    > admin true/false
+    > standard user
+    > user can adopt Many animals
+  > Animal
+    > data
+      > name
+      > type
+      > dateofbirth
+      > description
+      > picture
+      > availability
+    > can only be adopted by one user
+
+staff
+  > Can see a list of pending adoption requests
+    > can be approved or denied
+  > Can add a new animal to the system
+  > View list of all animals in the system (shows owners if available)
+  > Viewing
+    > All adoption requests
+    > Accepted requests
+    > Denied
+    > Pending
+
+Users
+  > home page shows list of animals up for adoption
+  > Should be able to make an adoption request
+  > user should be able to see the their adoption requests
+
+Forms
+  > Animal adoption
+  > Adding new animal for adoption
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//END

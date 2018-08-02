@@ -6,6 +6,8 @@
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default" id=search_filter>
+
+                <!-- Adoption Request Form -->
                 <div class="panel-heading">Adoption Request</div>
                 <div class="panel-body">
                     <form method="POST" action="{{ route('postAdoptionRequest') }}">
@@ -46,6 +48,7 @@
                         </div>
                     </form>
                 </div>
+                <!-- End of Adoption Request Form --> 
             </div>
         </div>
     </div>

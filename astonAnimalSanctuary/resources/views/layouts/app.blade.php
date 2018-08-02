@@ -62,7 +62,7 @@
                             </li>
                         @endif
                         <li><a href="{{ route('allStaff') }}">Contact Us</a></li>
-                        <li><a href="{{ route('home') }}">About</a></li>
+                        <li><a href="{{ route('about') }}">About</a></li>
 
 
                     </ul>
@@ -77,7 +77,7 @@
 
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" v-pre>
-                                    {{ 'Hello '.Auth::user()->fname }} <span class="caret"></span>
+                                    {{ 'Hello '.Auth::user()->username }} <span class="caret"></span>
                                 </a>
 
                                 <ul class="dropdown-menu">

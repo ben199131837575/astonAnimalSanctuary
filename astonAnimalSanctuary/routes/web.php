@@ -36,8 +36,10 @@ Route::post('/adoptionRequestForm/postAdoptionRequest', 'adoptionRequestControll
 Route::get('/user/{id}','userController@user')->name('user');
 Route::get('/allStaff','userController@allStaff')->name('allStaff');
 
-
-
+//About
+Route::get('/about', function(){
+    return view('about');
+})->name('about');
 
 
 

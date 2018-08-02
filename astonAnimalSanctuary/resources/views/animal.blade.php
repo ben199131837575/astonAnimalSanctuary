@@ -6,6 +6,7 @@
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
 
+            <!-- Detailed information panel on a specific animal -->
             <div class="panel panel-info">
                 <div class="panel-heading"><strong><h3>{{ $animal->name }}</h3></strong></div>
                 <div class="panel-body">
@@ -21,7 +22,11 @@
                             <p class="panel-text">Date of Birth: {{ $animal->dateofbirth}}</p>
                         </li>
                         <li class="list-group-item">
-                            <p class="panel-text">{{$animal->adopted == 0 ? $animal->name.' is available for adoption :D' : 'Not Available for adoption'}}</p>
+                            @if (!$animal->adopted)
+                                <p class="panel-text">{{$animal->name.' is available for adoption :D'}}</p>
+                            @else
+                                <p class="panel-text">{{'Adopted by '}} <a href="{{route('user',$user->id)}}"> <u>{{$user->fname.' '.$user->lname}}</u></a></p>
+                            @endif
                         </li>
                         <li class="list-group-item">
                             <p class="panel-text">Description: <br>{{ $animal->description }}</p>
@@ -30,6 +35,7 @@
                 </div>
             </div>
 
+            <!-- If the animal is not adopted a button linking a user to an adoption form -->
             @if ($animal->adopted == 0)
                 <div class="panel panel-info">
                     <div class="panel-heading"> Would you like to adopt {{$animal->name}}?</div>
@@ -41,6 +47,7 @@
                 </div>
             @endif
 
+            <!-- All the images for the animal displayed here -->
             @foreach ($images as $image)
                 <div class="panel panel-info">
                     <div class="panel-heading">
@@ -49,6 +56,7 @@
                 </div>
             @endforeach
 
+            <!-- If the animal is not adopted a button linking a user to an adoption form -->
             @if ($animal->adopted == 0 && count($images) > 1)
                 <div class="panel panel-info">
                     <div class="panel-heading"> Would you like to adopt {{$animal->name}}?</div>

@@ -4,8 +4,10 @@
 <div class="container">
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
+
+            <!-- Adoption request buttons for filtering bewtween all, pending, accepeted, denied -->
             @if(Auth::user() && Auth::user()->staff && !$personal )
-                <h4>User Adoption Requests: </h4><br>
+                <br>
                 <div class="btn-group" role="group">
                     <a class="btn btn-primary" type="button" href="{{ route('adoptionRequests', 'all') }}">
                         All
@@ -21,8 +23,10 @@
                     </a>
                 </div>
             @endif
-            <h3> {{ucwords($type)}}: </h3><br>
+            <!-- End of Adoption request buttons -->
 
+            <!-- Adoption Requests - listing -->
+            <h3> {{ucwords($type)}} Requests: </h3><br>
             @foreach ($adoptionRequests as $adoptionRequest)
                 @if ($adoptionRequest->type == 'accepted')
                     <div class="panel panel-success">
@@ -31,10 +35,7 @@
                 @else
                     <div class="panel panel-primary">
                 @endif
-
-
                 <div class="panel-heading"><h4><strong>Adoption Request ID: [ {{$adoptionRequest->id}} ]</strong><h4></div>
-
                 <div class="panel-body">
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item">
@@ -50,6 +51,8 @@
                         </li>
 
                         <br>
+
+                        <!-- User information section of adoption requests -->
                         @if ($users)
                             @foreach($users as $user)
                                 @if ($user->id == $adoptionRequest->userid)
@@ -66,6 +69,9 @@
                                 @endif
                             @endforeach
                         @endif
+                        <!-- End of User information -->
+
+                        <!-- Animal information section of adoption requests -->
                         <br>
                         @foreach($animals as $animal)
                             @if ($animal->id == $adoptionRequest->animalid)
@@ -89,6 +95,9 @@
                                 </li>
                             @endif
                         @endforeach
+                        <!-- End of Animal information -->
+
+                        <!-- Button with link to the animal specific an adoption request -->
                         @if ($adoptionRequest->userid != Auth::user()->id && Auth::user()->staff)
                             <li class="list-group-item">
                                 <div class="btn-group" role="group">
@@ -106,6 +115,7 @@
                 </div>
                 <br><br><br><br>
             @endforeach
+            <!-- End of Adoption Requests - listing -->
 
         </div>
     </div>
