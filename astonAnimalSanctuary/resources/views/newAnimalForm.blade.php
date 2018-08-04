@@ -82,6 +82,11 @@
                                 <label for="image_upload" class="col-sm-4 col-form-label text-md-right">{{ __('Select Images to upload:') }}</label>
                                 <div class="col-md-6">
                                     <input id="image_upload" type="file" name="image_upload[]" accept="image/*" multiple required>
+                                    @if ($errors->has('image_upload'))
+                                        <span class="help-block">
+                                            <strong>{{ $errors->first('image_upload') }}</strong>
+                                        </span>
+                                    @endif
                                 </div>
                             </div>
 

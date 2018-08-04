@@ -56,14 +56,24 @@
                             <div class="form-group row">
                                 <label for="dateofbirth" class="col-sm-4 col-form-label text-md-right"><?php echo e(__('Date of Birth:')); ?></label>
                                 <div class="col-md-6">
-                                    <input id="dateofbirth" type="date" class="form-control" name="dateofbirth" value="" placeholder="dateofbirth" required>
+                                    <input id="dateofbirth" type="date" class="form-control" name="dateofbirth" value="<?php echo e(old('dateofbirth')); ?>" placeholder="dateofbirth" required>
                                 </div>
+                                <?php if($errors->has('dateofbirth')): ?>
+                                    <span class="help-block">
+                                        <strong><?php echo e($errors->first('dateofbirth')); ?></strong>
+                                    </span>
+                                <?php endif; ?>
                             </div>
 
                             <div class="form-group row">
                                 <label for="description" class="col-sm-4 col-form-label text-md-right"><?php echo e(__('Animal Description:')); ?></label>
                                 <div class="col-md-6">
-                                    <textarea id="description" type="date" class="form-control" name="description" value="" placeholder="description" required></textarea>
+                                    <textarea id="description" type="date" class="form-control" name="description" value="<?php echo e(old('description')); ?>" placeholder="description" required></textarea>
+                                    <?php if($errors->has('description')): ?>
+                                        <span class="help-block">
+                                            <strong><?php echo e($errors->first('description')); ?></strong>
+                                        </span>
+                                    <?php endif; ?>
                                 </div>
                             </div>
 
@@ -71,6 +81,11 @@
                                 <label for="image_upload" class="col-sm-4 col-form-label text-md-right"><?php echo e(__('Select Images to upload:')); ?></label>
                                 <div class="col-md-6">
                                     <input id="image_upload" type="file" name="image_upload[]" accept="image/*" multiple required>
+                                    <?php if($errors->has('image_upload')): ?>
+                                        <span class="help-block">
+                                            <strong><?php echo e($errors->first('image_upload')); ?></strong>
+                                        </span>
+                                    <?php endif; ?>
                                 </div>
                             </div>
 

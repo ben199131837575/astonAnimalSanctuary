@@ -10,7 +10,7 @@
                 Search Filter <span class="caret"></span>
             </button><br><br>
 
-            <div class="panel panel-default accordion-body collapse" id=search_filter>
+            <div class="panel panel-default accordion-body {{ ($errors->isEmpty() ? 'collapse' : '') }}" id=search_filter>
                 <div class="panel-body" >
                     <div class="card-body bg-light">
 
@@ -20,7 +20,12 @@
                             <div class="form-group row">
                                 <label for="keywords" class="col-sm-4 col-form-label text-md-right">{{ __('Search') }}</label>
                                 <div class="col-md-6">
-                                    <input id="keywords" type="text" class="form-control" name="keywords" value="" placeholder="text search">
+                                    <input id="keywords" type="text" class="form-control" value="{{ old('keywords') }}" name="keywords" value="" placeholder="text search">
+                                    @if ($errors->has('keywords'))
+                                        <span class="help-block">
+                                            <strong>{{ $errors->first('keywords') }}</strong>
+                                        </span>
+                                    @endif
                                 </div>
                             </div>
 
@@ -59,19 +64,19 @@
                             <!-- Toggles for staff to give them the abilty to see adopted animals,
                              that would, otherwise, be hidden -->
                             @if (Auth::user() && Auth::user()->staff)
-                            <div class="form-group row">
-                                <label for="show_adopted" class="col-sm-4 col-form-label text-md-right">{{ __('Include Adopted') }}</label>
-                                <div class="col-md-6">
-                                    <input type="radio" id="show_adopted" name="adoption" value="show_adopted">
+                                <div class="form-group row">
+                                    <label for="show_adopted" class="col-sm-4 col-form-label text-md-right">{{ __('Include Adopted') }}</label>
+                                    <div class="col-md-6">
+                                        <input type="radio" id="show_adopted" name="adoption" value="show_adopted">
+                                    </div>
                                 </div>
-                            </div>
 
-                            <div class="form-group row">
-                                <label for="only_show_adopted" class="col-sm-4 col-form-label text-md-right">{{ __('Only Include Adopted') }}</label>
-                                <div class="col-md-6">
-                                    <input type="radio" id="only_show_adopted" name="adoption" value="only_show_adopted">
+                                <div class="form-group row">
+                                    <label for="only_show_adopted" class="col-sm-4 col-form-label text-md-right">{{ __('Only Include Adopted') }}</label>
+                                    <div class="col-md-6">
+                                        <input type="radio" id="only_show_adopted" name="adoption" value="only_show_adopted">
+                                    </div>
                                 </div>
-                            </div>
                             @endif
 
                             <div class="form-group row mb-0">

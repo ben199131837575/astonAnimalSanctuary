@@ -20,8 +20,13 @@
                         </div>
                         <div class="form-group row mb-0">
                             <div class="col-md-6">
-                                <textarea id="reason" type="text" class="form-control" name="reason" required>
+                                <textarea id="reason" type="text" class="form-control" value="<?php echo e(old('reason')); ?>" name="reason" required>
                                 </textarea>
+                                <?php if($errors->has('reason')): ?>
+                                    <span class="help-block">
+                                        <strong><?php echo e($errors->first('reason')); ?></strong>
+                                    </span>
+                                <?php endif; ?>
                             </div>
                         </div>
 
@@ -33,12 +38,17 @@
                         </div>
                         <div class="form-group row mb-0">
                             <div class="col-md-6">
-                                <textarea id="other_animals" type="text" class="resize form-control" name="other_animals">
+                                <textarea id="other_animals" type="text" class="resize form-control" value="<?php echo e(old('other_animals')); ?>" name="other_animals">
                                 </textarea>
+                                <?php if($errors->has('other_animals')): ?>
+                                    <span class="help-block">
+                                        <strong><?php echo e($errors->first('other_animals')); ?></strong>
+                                    </span>
+                                <?php endif; ?>
                             </div>
                         </div>
 
-                        <input type="text" name="animalid" value="<?php echo e($animalid); ?>" hidden>
+                        <input type="text" name="animalid" value="<?php echo e((old('animalid') ? old('animalid') : $animalid )); ?>" hidden>
 
                         <div class="form-group row mb-0">
                             <div class="col-md-8 offset-md-4">
@@ -50,7 +60,8 @@
                         </div>
                     </form>
                 </div>
-                <!-- End of Adoption Request Form --> 
+                <!-- End of Adoption Request Form -->
+
             </div>
         </div>
     </div>

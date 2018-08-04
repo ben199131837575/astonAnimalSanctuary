@@ -32,10 +32,7 @@ class adoptionRequestController extends Controller
         }else if(Animal::find($id)->adopted){
             return customSecurity::returnMessage('panel-warning',
                 'Sorry :(', 'This animal has already been adopted',
-                0,
-                '',
-                '',
-                '');
+                0,'','','');
         }
         return view('adoptionRequestForm', array('animalid'=>$id));
     }
@@ -91,10 +88,15 @@ class adoptionRequestController extends Controller
 
         return customSecurity::returnMessage('panel-warning',
             'Sorry :(', 'Action could not be completed. Check if the animal is already adopted.',
-            0,
-            '',
-            '',
-            '');
+            0,'','','');
+    }
+
+    private function validateRequestData($request){
+        return $request->validate([
+            'reason' => 'required|string|max:255',
+            'other' => 'max:255',
+            'animalid' => 'required',
+        ]);
     }
 
     /**
@@ -103,48 +105,44 @@ class adoptionRequestController extends Controller
      * @method postAdoptionRequest
      * @return view
      */
-    public function postAdoptionRequest(){
+    public function postAdoptionRequest(Request $request){
         $notLoggedIn = customSecurity::checkUserIsLoggedIn();
         if($notLoggedIn){
             return $notLoggedIn;
         }
 
+        $validatedData = $this->validateRequestData($request);
+
         // Find animal selected for the adoption request
-        $animal = Animal::find(Input::get('animalid'));
+        $animal = Animal::find($validatedData['animalid']);
 
         // Create a new adoption request object and populate its feilds with
         // user data
         $adoptionRequest = new Adoption_Request;
-        $adoptionRequest->animalid = Input::get('animalid');
+        $adoptionRequest->animalid = $validatedData['animalid'];
         $adoptionRequest->userid = Auth::user()->id;
-        $adoptionRequest->reason = Input::get('reason');
+        $adoptionRequest->reason = $validatedData['reason'];
 
         // Check that the animal is not aleady adopted
         if($animal->adopted){
             return customSecurity::returnMessage('panel-danger',
             'Sorry :(','You cannot adopt this animal. It already has an owner. If you believe this to be incorrect, please contact a member of staff',
-            0,
-            '',
-            '',
-            '');
+            0,'','','');
         }
 
         // Check if user has already applied to adopt this animal
         $request = Adoption_Request::all()
-            ->where('animalid', '=',Input::get('animalid'))
+            ->where('animalid', '=',$validatedData['animalid'])
             ->where('userid', '=', Auth::user()->id);
         if(count($request)){
             return customSecurity::returnMessage('panel-danger',
             'Error X(','You cannot apply to adopt the same animal more than once.',
-            0,
-            '',
-            '',
-            '');
+            0,'','','');
         }
 
         // Check if there user posted information about other animals they own
         if(Input::get('other_animals')){
-            $adoptionRequest->other_animals = Input::get('other_animals');
+            $adoptionRequest->other_animals = $validatedData['other_animals'];
         }else{
             $adoptionRequest->other_animals = "";
         }
@@ -154,21 +152,14 @@ class adoptionRequestController extends Controller
             return customSecurity::returnMessage('panel-success',
             'Success :)',
             'Your request has been receive and is now pending for approval!',
-            0,
-            '',
-            '',
-            '');
+            0,'','','');
         }
         return customSecurity::returnMessage('panel-warning',
         'Sorry :(',
         'Your request has failed, please try again or contact a member of staff',
-        0,
-        '',
-        '',
-        '');
+        0,'','','');
 
     }
-
 
     /**
      * Returns adoption requests to a view. Non staff members can see their own adoption
@@ -178,17 +169,20 @@ class adoptionRequestController extends Controller
      * @return view
      */
     public function adoptionRequests($type){//type can be: user, all, pending, denied, accepted
+
         //will return all the adoption requests of a specific user
         if($type == 'user'){
             $notLoggedIn = customSecurity::checkUserIsLoggedIn();
             if($notLoggedIn){
                 return $notLoggedIn;
             }
-            $adoptionRequests = Adoption_Request::all()->where('userid', '=', Auth::user()->id);
+            $adoptionRequests = Adoption_Request::orderBy('updated_at', 'desc')->where('userid', '=', Auth::user()->id)->get();
             $animalIds = array();
+
             foreach ($adoptionRequests as $adoptionRequest) {
                 $animalIds[] = $adoptionRequest->animalid;
             }
+
             $animals = Animal::distinct()->find($animalIds);
             return view('adoptionRequests',
                 array('users'=>0,
@@ -209,10 +203,10 @@ class adoptionRequestController extends Controller
 
         if($type == 'all'){
             // Fetchs all adoption requests
-            $adoptionRequests = Adoption_Request::all();
+            $adoptionRequests = Adoption_Request::orderBy('updated_at', 'desc')->get();
         }else{
             // Fetch adoption requests based on the specified request status
-            $adoptionRequests = Adoption_Request::all()->where('type', '=', $type);
+            $adoptionRequests = Adoption_Request::orderBy('updated_at', 'desc')->where('type', '=', $type)->get();
         }
 
         // Get the user and animal IDs related to each adoption requests
@@ -224,7 +218,7 @@ class adoptionRequestController extends Controller
 
         $animals = Animal::distinct()->find($animalIds);
         $users = User::distinct()->find($userIds);
-        
+
         return view('adoptionRequests',
             array('users'=>$users,
             'animals'=>$animals,

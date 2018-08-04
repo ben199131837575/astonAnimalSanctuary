@@ -20,8 +20,13 @@
                         </div>
                         <div class="form-group row mb-0">
                             <div class="col-md-6">
-                                <textarea id="reason" type="text" class="form-control" name="reason" required>
+                                <textarea id="reason" type="text" class="form-control" value="{{ old('reason') }}" name="reason" required>
                                 </textarea>
+                                @if ($errors->has('reason'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('reason') }}</strong>
+                                    </span>
+                                @endif
                             </div>
                         </div>
 
@@ -32,12 +37,17 @@
                         </div>
                         <div class="form-group row mb-0">
                             <div class="col-md-6">
-                                <textarea id="other_animals" type="text" class="resize form-control" name="other_animals">
+                                <textarea id="other_animals" type="text" class="resize form-control" value="{{ old('other_animals') }}" name="other_animals">
                                 </textarea>
+                                @if ($errors->has('other_animals'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('other_animals') }}</strong>
+                                    </span>
+                                @endif
                             </div>
                         </div>
 
-                        <input type="text" name="animalid" value="{{$animalid}}" hidden>
+                        <input type="text" name="animalid" value="{{ (old('animalid') ? old('animalid') : $animalid ) }}" hidden>
 
                         <div class="form-group row mb-0">
                             <div class="col-md-8 offset-md-4">
@@ -48,7 +58,8 @@
                         </div>
                     </form>
                 </div>
-                <!-- End of Adoption Request Form --> 
+                <!-- End of Adoption Request Form -->
+
             </div>
         </div>
     </div>
