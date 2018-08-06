@@ -23,6 +23,7 @@ class AnimalController extends Controller{
      */
     private function validateNewAnimalData($request){
         $currentDate = date('Y-m-d');
+
         return $request->validate([
             'name' => 'required|string|max:60',
             'dateofbirth' => 'required|date|before:'.$currentDate,
@@ -44,7 +45,7 @@ class AnimalController extends Controller{
             'keywords' => 'max:60',
             'type' => '',
             'adoption' => '',
-            'oderby' => '',
+            'orderby' => '',
         ]);
     }
 
@@ -131,11 +132,9 @@ class AnimalController extends Controller{
         // If a staff member didn't select 'show adopted'
         }else if(!isset($validatedData['adoption']) == 'show_adopted'){
             $animalQuery->where('adopted', '=', 0);
-            echo "show adopted (dont include) <br><br>";
         // if a staff member selects to only show adopted then omitt, all but...
         }else if(isset($validatedData['adoption']) == 'only_show_adopted' && $validatedData['adoption'] != 'show_adopted'){
             $animalQuery->where('adopted', '=', 1);
-            echo "ony show adopted <br><br>";
         }
 
         if(isset($validatedData['type'])){
@@ -153,7 +152,6 @@ class AnimalController extends Controller{
                 });
             }
         }
-
         // if selected orders results by a paramter slected by the user
         if(isset($validatedData['orderby'])){
             // order by age young to old

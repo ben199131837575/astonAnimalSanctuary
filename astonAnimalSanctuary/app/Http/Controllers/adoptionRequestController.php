@@ -94,7 +94,7 @@ class adoptionRequestController extends Controller
     private function validateRequestData($request){
         return $request->validate([
             'reason' => 'required|string|max:255',
-            'other' => 'max:255',
+            'other_animals' => 'max:255',
             'animalid' => 'required',
         ]);
     }
@@ -141,7 +141,7 @@ class adoptionRequestController extends Controller
         }
 
         // Check if there user posted information about other animals they own
-        if(Input::get('other_animals')){
+        if($validatedData['other_animals']){
             $adoptionRequest->other_animals = $validatedData['other_animals'];
         }else{
             $adoptionRequest->other_animals = "";
