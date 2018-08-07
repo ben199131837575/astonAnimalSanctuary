@@ -61,7 +61,11 @@ class adoptionRequestController extends Controller
             // reset animal to default (non adopted) state)
             $adoptionRequest->type = 'denied';
             $animal->adopted = 0;
-            $animal->userid = 0;
+
+            if($animal->userid){
+                $animal->userid = 0;
+            }
+            
             $adoptionRequest->save();
             $animal->save();
 
