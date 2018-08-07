@@ -219,7 +219,7 @@ class AnimalController extends Controller{
 
         $user = 0;
         if($animal->userid){
-            $user = User::find($animal->$request->inputerid);
+            $user = User::find($animal->userid);
         }
         return view('/animal', array('user'=>$user, 'animal'=>$animal, 'images'=>$images));
     }
